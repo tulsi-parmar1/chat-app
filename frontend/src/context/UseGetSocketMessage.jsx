@@ -1,44 +1,21 @@
-// import React, { useEffect } from "react";
-// import { useSocket } from "./socketContext.jsx";
-// import { useSelector } from "react-redux";
-// import { useDispatch } from "react-redux";
-// import { conversationActions } from "../../Slice/ConversationSlice.js";
+import { useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { socketContext } from "./SocketContext";
+import { conversationActions } from "../../Slice/ConversationSlice";
 
-// function UseGetSocketMessage() {
-//   const dispatch = useDispatch();
-//   const { socket } = useSocket();
-//   const { messages } = useSelector((state) => state.conversation);
-
-//   console.log("ye tera", socket);
-
-//   useEffect(() => {
-//     socket.on("newMessage", (NewMessage) => {
-//       console.log("new message arrived", NewMessage);
-//       dispatch(conversationActions.setMessages([...messages, NewMessage]));
-//     });
-//     return () => socket.off("newMessage");
-//   }, [socket, dispatch]);
-//   return <div></div>;
-// }
-
-// export default UseGetSocketMessage;
-import React, { useEffect } from "react";
-import { useSocketContext } from "./SocketContext.jsx";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { conversationActions } from "../../Slice/ConversationSlice.js";
-
-const useGetSocketMessage = () => {
-  const { socket } = useSocketContext();
-  const { messages } = useSelector((state) => state.conversation);
+export default function useGetSocketMessage() {
   const dispatch = useDispatch();
+  const { socket } = useContext(socketContext);
+  const { messages } = useSelector((state) => state.conversation);
   useEffect(() => {
-    socket.on("newMessage", (newMessage) => {
-      dispatch(conversationActions.setMessages([...messages, newMessage]));
+    socket.on("receiveMessage", (data) => {
+      dispatch(conversationActions.addMessage(data));
     });
+
     return () => {
-      socket.off("newMessage");
+      socket.off("receiveMessage");
     };
-  }, [socket, messages, setMessage]);
-};
-export default useGetSocketMessage;
+  }, [socket]);
+
+  return null;
+}

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tulsi from "../../../public/tulsi.jpg";
+import { socketContext } from "../../context/SocketContext";
 
 function Users({ users, setUsers, route }) {
   const loggedinuser = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
+  const { onlineUser } = useContext(socketContext);
 
   const handlefollow = async (userId) => {
     try {
@@ -20,6 +22,8 @@ function Users({ users, setUsers, route }) {
       );
       console.log(data);
 
+      localStorage.setItem("user", JSON.stringify(data));
+
       const data2 = await axios.get(
         `http://localhost:4000/user/getUser`,
         { withCredentials: true },
@@ -29,6 +33,7 @@ function Users({ users, setUsers, route }) {
       );
       console.log(data2.data);
       localStorage.setItem("user", JSON.stringify(data2.data));
+
       setUser(data2.data);
     } catch (error) {
       console.log(error);
@@ -131,7 +136,6 @@ function Users({ users, setUsers, route }) {
         }
       );
       console.log(data2.data);
-
       localStorage.setItem("user", JSON.stringify(data2.data));
       setUser(data2.data);
     } catch (error) {
@@ -141,6 +145,7 @@ function Users({ users, setUsers, route }) {
   const handlechat = async (userId) => {
     navigate(`/${route}/chat/${userId}`);
   };
+  console.log(loggedinuser);
   return (
     <div>
       {users.map((user) => {
@@ -167,58 +172,53 @@ function Users({ users, setUsers, route }) {
                 <p className="text-sm text-gray-400">{user.email}</p>
               </div>
             </div>
-            {
-              // Agar user already following hai
-              loggedinuser.following.includes(user._id) &&
-              !loggedinuser.followRequests.includes(user._id) ? (
-                <div>
-                  <button
-                    className="px-3 py-1 bg-gray-800 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                    onClick={() => handleunflw(user._id)}
-                  >
-                    following
-                  </button>
-                  <button
-                    className="px-3 py-1 bg-gray-800 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                    onClick={() => handlechat(user._id)}
-                  >
-                    chat
-                  </button>
-                </div>
-              ) : // Agar follow request bheji gayi hai
-              loggedinuser.sentRequests.includes(user._id) ? (
+            {loggedinuser.following.includes(user._id) &&
+            !loggedinuser.followRequests.includes(user._id) ? (
+              <div>
                 <button
-                  className="px-3 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                  onClick={() => handleRequested(user._id)}
+                  className="px-3 py-1 bg-gray-800 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                  onClick={() => handleunflw(user._id)}
                 >
-                  requested
+                  following
                 </button>
-              ) : loggedinuser.followRequests.includes(user._id) ? (
-                <div>
-                  <button
-                    className="px-3 py-1 bg-green-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                    onClick={() => handleRequestAccept(user._id)}
-                  >
-                    accept
-                  </button>
+                <button
+                  className="px-3 py-1 bg-gray-800 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                  onClick={() => handlechat(user._id)}
+                >
+                  chat
+                </button>
+              </div>
+            ) : loggedinuser.sentRequests.includes(user._id) ? (
+              <button
+                className="px-3 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                onClick={() => handleRequested(user._id)}
+              >
+                requested
+              </button>
+            ) : loggedinuser.followRequests.includes(user._id) ? (
+              <div>
+                <button
+                  className="px-3 py-1 bg-green-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                  onClick={() => handleRequestAccept(user._id)}
+                >
+                  accept
+                </button>
 
-                  <button
-                    className="px-3 py-1 bg-red-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                    onClick={() => handleRequestReject(user._id)}
-                  >
-                    Reject
-                  </button>
-                </div>
-              ) : (
-                // Default "follow" button agar koi action nahi hua
                 <button
-                  className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
-                  onClick={() => handlefollow(user._id)}
+                  className="px-3 py-1 bg-red-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                  onClick={() => handleRequestReject(user._id)}
                 >
-                  follow
+                  Reject
                 </button>
-              )
-            }
+              </div>
+            ) : (
+              <button
+                className="px-3 py-1 bg-teal-500 text-white rounded-full hover:bg-gray-800 cursor-pointer"
+                onClick={() => handlefollow(user._id)}
+              >
+                follow
+              </button>
+            )}
           </div>
         );
       })}

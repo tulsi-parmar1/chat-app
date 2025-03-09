@@ -15,7 +15,7 @@ import Chat from "./components/Home/Chat.jsx";
 import Sidebar from "./components/Home/Sidebar.jsx";
 import { Provider } from "react-redux";
 import store from "../Store/index.js";
-import { SocketProvider } from "./context/socketContext.jsx";
+import { SocketProvider } from "./context/SocketContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,13 +75,13 @@ const router = createBrowserRouter([
   },
 ]);
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <SocketProvider>
-        <RouterProvider router={router}>
-          <App />
-        </RouterProvider>
-      </SocketProvider>
-    </Provider>
-  </StrictMode>
+  // <StrictMode>
+  <Provider store={store}>
+    <SocketProvider>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
+    </SocketProvider>
+  </Provider>
+  // </StrictMode>
 );

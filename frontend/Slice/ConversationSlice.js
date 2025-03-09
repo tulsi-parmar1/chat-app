@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const conversationSlice = createSlice({
   name: "conversation",
   initialState: {
+    user: null,
     messages: [],
     selectedConversation: null,
   },
@@ -12,6 +13,12 @@ const conversationSlice = createSlice({
     },
     setMessages: (state, action) => {
       state.messages = action.payload;
+    },
+    addMessage: (state, action) => {
+      state.messages.push(action.payload); // Append new message
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
     },
   },
 });

@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { conversationActions } from "../../../Slice/ConversationSlice.js";
 function SignUp() {
   const {
     register,
@@ -11,6 +13,7 @@ function SignUp() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onSubmit = async (data2) => {
     // e.preventDefault();
     try {
@@ -26,6 +29,7 @@ function SignUp() {
       const response = await axios.get("http://localhost:4000/user/getUser", {
         withCredentials: true,
       });
+      dispatch(conversationActions.setUser(data2.data));
       localStorage.setItem("user", JSON.stringify(response.data));
       localStorage.setItem("isAuth", true);
       navigate("/");

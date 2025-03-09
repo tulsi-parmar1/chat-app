@@ -134,21 +134,19 @@ export const sendFollowRequest = async (req, res) => {
 };
 export const acceptRequest = async (req, res) => {
   try {
-    const { id } = req.params; // ID of user who sent the request
+    const { id } = req.params;
 
-    const user = await User.findById(req.user._id); // Receiver (logged-in user)
-    const userToAccept = await User.findById(id); // Sender of the request
+    const user = await User.findById(req.user._id);
+    const userToAccept = await User.findById(id);
 
     if (!userToAccept) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Check if follow request exists
     if (!user.followRequests.includes(userToAccept._id.toString())) {
       return res.status(400).json({ message: "No follow request found" });
     }
 
-    // Remove from pending requests
     user.followRequests = user.followRequests.filter(
       (userId) => userId.toString() !== id
     );
@@ -157,9 +155,8 @@ export const acceptRequest = async (req, res) => {
       (userId) => userId.toString() !== user._id.toString()
     );
 
-    // Update followers and following
-    user.followers.push(userToAccept._id); // The receiver gains a follower
-    userToAccept.following.push(user._id); // The sender follows the receiver
+    user.followers.push(userToAccept._id);
+    userToAccept.following.push(user._id);
 
     await user.save();
     await userToAccept.save();
@@ -274,7 +271,10 @@ export const rejectRequests = async (req, res) => {
 };
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select("username email");
+    const loggedinuserid = req.user._id;
+    const users = await User.find({ _id: { $ne: loggedinuserid } }).select(
+      "username email"
+    );
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: "server error", error: error });

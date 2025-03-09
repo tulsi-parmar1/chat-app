@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { conversationActions } from "../../../Slice/ConversationSlice";
 function Login() {
   const {
     register,
@@ -11,6 +13,7 @@ function Login() {
     watch,
   } = useForm();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onSubmit = async (FormData) => {
     try {
       const { data } = await axios.post(
@@ -29,7 +32,9 @@ function Login() {
           withCredentials: true,
         }
       );
+      dispatch(conversationActions.setUser(data2.data));
       localStorage.setItem("user", JSON.stringify(data2.data));
+
       toast.success(data.message);
       navigate("/");
     } catch (error) {

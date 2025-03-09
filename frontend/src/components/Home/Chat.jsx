@@ -1,76 +1,67 @@
-import React, { useState } from "react";
-import Loading from "./Loading";
-import { conversationActions } from "../../../Slice/ConversationSlice";
-import { useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ChatTyping from "./ChatTyping";
-
 import axios from "axios";
-
 import Message from "./Message";
 import ChatProfile from "./ChatProfile";
-import UseGetSocketMessage from "../../context/UseGetSocketMessage";
+
+import { conversationActions } from "../../../Slice/ConversationSlice";
+import { socketContext } from "../../context/SocketContext";
+import useGetSocketMessage from "../../context/UseGetSocketMessage";
 
 function Chat() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  // const [messages, setmessages] = useState([]);
   const { messages } = useSelector((state) => state.conversation);
-  const [loading, setLoading] = useState(true);
-  const [receiver, setReceiver] = useState();
-  UseGetSocketMessage();
+  const [receiver, setReceiver] = useState(null);
+
+  useGetSocketMessage();
 
   useEffect(() => {
     dispatch(conversationActions.setSelectedConversation(id));
+
     const getMessages = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:4000/message/get/${id}`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
-        console.log("data", data.messages);
 
-        // setmessages(data.messages);
         dispatch(conversationActions.setMessages(data.messages));
-        setLoading(false);
       } catch (error) {
-        console.log(error);
-        setLoading(false);
+        console.error("Error fetching messages:", error);
       }
     };
+
     getMessages();
+  }, [id, dispatch]);
+
+  useEffect(() => {
     const getUserById = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:4000/user/getUserById/${id}`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
 
         setReceiver(data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching user:", error);
       }
     };
+
     getUserById();
   }, [id]);
 
   return (
     <div className="h-full flex flex-col">
-      {/* Sticky Chat Profile at the Top */}
       <div className="sticky top-0 z-10 shadow-md">
         <ChatProfile receiver={receiver} />
       </div>
 
-      {/* Messages Container (Auto-Expanding, Scrollable) */}
       <div className="flex-1 overflow-y-auto p-4 mb-12">
-        {loading ? (
-          <Loading />
-        ) : messages.length > 0 ? (
+        {messages.length > 0 ? (
           messages.map((message) => (
             <Message key={message.id} message={message} />
           ))
@@ -83,7 +74,6 @@ function Chat() {
         )}
       </div>
 
-      {/* Sticky Chat Typing at the Bottom */}
       <div className="sticky bottom-0 z-10 shadow-md mt-3 bg-black">
         <ChatTyping />
       </div>

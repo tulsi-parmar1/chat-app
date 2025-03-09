@@ -1,41 +1,46 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React, { useContext, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { IoSend } from "react-icons/io5";
-import axios from "axios";
-import { conversationActions } from "../../../Slice/ConversationSlice";
-// import UseGetSocketMessage from "../../context/UseGetSocketMessage.jsx";
+import { conversationActions } from "../../../Slice/ConversationSlice.js";
+import { socketContext } from "../../context/SocketContext.jsx";
 
 function ChatTyping() {
   const { selectedConversation } = useSelector((state) => state.conversation);
   const dispatch = useDispatch();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { socket } = useContext(socketContext);
+  const [message, setMessage] = useState("");
+
   const { messages } = useSelector((state) => state.conversation);
 
-  const handleSendMessage = async () => {
-    try {
-      const { data } = await axios.post(
-        `http://localhost:4000/message/send/${selectedConversation}`,
-        { messages },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSendMessage = () => {
+    if (!message.trim()) return;
+
+    const senderId = user._id;
+
+    socket.emit("sendMessage", {
+      senderId,
+      receiverId: selectedConversation,
+      message,
+    });
+    socket.on("messageSent", (data) => {
+      dispatch(conversationActions.setMessages([...messages, data]));
+      console.log(messages, data);
+    });
+    setMessage("");
   };
+
   return (
     <div>
-      <div className="fixed bottom-3 flex  items-center w-full bg-black pt-4 pb-2 ">
+      <div className="fixed bottom-3 flex items-center w-full bg-black pt-4 pb-2">
         <input
           type="text"
           placeholder="Type here"
           className="input w-full"
           style={{ width: "75%" }}
-          onChange={(e) =>
-            dispatch(conversationActions.setMessages(e.target.value))
-          }
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
         <div className="ml-3">
           <IoSend size={24} onClick={handleSendMessage} />

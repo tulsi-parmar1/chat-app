@@ -2,19 +2,40 @@ import { Toaster } from "react-hot-toast";
 import "./index.css";
 import Sidebar from "./components/Home/Sidebar";
 import { Outlet } from "react-router-dom";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { conversationActions } from "../Slice/ConversationSlice";
+import { socketContext } from "./context/SocketContext";
 
 function App() {
   const isAuth = localStorage.getItem("isAuth") === "true";
   const navigate = useNavigate();
-
+  const { socket } = useContext(socketContext);
+  console.log("socket in app", socket);
+  const dispatch = useDispatch();
   useEffect(() => {
-    // if (!isAuth) {
-    //   navigate("/login");
-    // }
-  });
+    const getdata = async (req, res) => {
+      try {
+        const data2 = await axios.get(
+          `http://localhost:4000/user/getUser`,
+          { withCredentials: true },
+          {
+            withCredentials: true,
+          }
+        );
+        dispatch(conversationActions.setUser(data2.data));
+        localStorage.setItem("user", JSON.stringify(data2.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getdata();
+  }, []);
+  // useEffect(() => {
+
+  // }, []);
   return (
     <>
       {/* <SignUp></SignUp> */}
