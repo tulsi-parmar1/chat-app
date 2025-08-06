@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import tulsi from "../../../public/tulsi.jpg";
+import man from "../../../public/man.jpg";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { IoAddOutline } from "react-icons/io5";
 import { conversationActions } from "../../../Slice/ConversationSlice";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +33,31 @@ function Sidebar() {
     localStorage.setItem("user", null);
     navigate("/login");
   };
-
+  // const handleFileChange = async (e) => {
+  //   if (!isAuthorized) {
+  //     return navigate("/login");
+  //   }
+  //   const file = e.target.files[0]; // Get the file directly
+  //   const yess = confirm("Are you sure you want to upload this file?");
+  //   if (yess) {
+  //     const fm = new FormData();
+  //     fm.append("profile", file);
+  //     try {
+  //       const response = await axios.post(
+  //         "http://localhost:4000/user/profileChange",
+  //         fm,
+  //         { withCredentials: true }
+  //       );
+  //       dispatch(userAction.setProfile(response.data.profile));
+  //       audio.play();
+  //       toast.success(response.data.message);
+  //       dispatch(userAction.setUser(response.data.user));
+  //       localStorage.getItem("user", response.data.user);
+  //     } catch (error) {
+  //       toast.error(error.response.data);
+  //     }
+  //   }
+  // };
   return (
     <>
       <div className="fixed top-0 md:hidden z-50 bg-gray-800 w-full h-14 flex items-center px-4">
@@ -63,10 +89,30 @@ function Sidebar() {
         {/* Profile Section */}
         <div className="flex items-center gap-4 mt-4">
           <img
-            src={tulsi}
+            src={man}
             alt="Profile"
             className="h-16 w-16 rounded-full object-cover"
           />
+          {/* <label
+            htmlFor="file-input"
+            style={{
+              fontSize: "19px",
+              position: "absolute",
+              top: "80px",
+              left: "67px",
+              backgroundColor: "teal",
+              borderRadius: "50%",
+            }}
+          >
+            <IoAddOutline />
+          </label> */}
+          {/* <input
+            type="file"
+            name="profile"
+            style={{ display: "none" }}
+            id="file-input"
+            onChange={handleFileChange}
+          /> */}
           <p className="text-white">{user?.username}</p>
         </div>
 

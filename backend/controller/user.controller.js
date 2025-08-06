@@ -125,6 +125,7 @@ export const sendFollowRequest = async (req, res) => {
 
     await user.save();
     await userToFollow.save();
+    socket;
 
     res.status(200).json({ message: "User requested succesfully", user });
   } catch (error) {

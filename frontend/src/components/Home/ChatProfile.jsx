@@ -10,7 +10,6 @@ function ChatProfile({ receiver }) {
           {" "}
           <IoMdArrowRoundBack onClick={() => window.history.back()} />
         </p>
-
         <img
           src={tulsi}
           alt="User Avatar"

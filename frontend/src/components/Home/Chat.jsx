@@ -17,10 +17,8 @@ function Chat() {
   const [receiver, setReceiver] = useState(null);
 
   useGetSocketMessage();
-
   useEffect(() => {
     dispatch(conversationActions.setSelectedConversation(id));
-
     const getMessages = async () => {
       try {
         const { data } = await axios.get(

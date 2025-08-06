@@ -40,6 +40,11 @@ function ChatTyping() {
           className="input w-full"
           style={{ width: "75%" }}
           value={message}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSendMessage(); // replace with your function to send message
+            }
+          }}
           onChange={(e) => setMessage(e.target.value)}
         />
         <div className="ml-3">

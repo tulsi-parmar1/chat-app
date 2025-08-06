@@ -1,43 +1,52 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tulsi from "../../../public/tulsi.jpg";
 import { socketContext } from "../../context/SocketContext";
+import { useDispatch, useSelector } from "react-redux";
+
+import toast from "react-hot-toast";
 
 function Users({ users, setUsers, route }) {
   const loggedinuser = JSON.parse(localStorage.getItem("user"));
+  console.log(loggedinuser);
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
+  const { socket } = useContext(socketContext);
   const { onlineUser } = useContext(socketContext);
 
   const handlefollow = async (userId) => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:4000/user/sendFollowRequest/${userId}`,
-        { withCredentials: true },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data);
+    // try {
+    //   const { data } = await axios.get(
+    //     `http://localhost:4000/user/sendFollowRequest/${userId}`,
+    //     { withCredentials: true },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   console.log(data);
+    //   localStorage.setItem("user", JSON.stringify(data));
+    //   const data2 = await axios.get(
+    //     `http://localhost:4000/user/getUser`,
+    //     { withCredentials: true },
+    //     {
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   console.log(data2.data);
+    //   localStorage.setItem("user", JSON.stringify(data2.data));
+    //   setUser(data2.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    socket.emit("followRequest", { id: userId, userId: loggedinuser._id });
 
+    socket.on("sendrequest", (data) => {
       localStorage.setItem("user", JSON.stringify(data));
-
-      const data2 = await axios.get(
-        `http://localhost:4000/user/getUser`,
-        { withCredentials: true },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data2.data);
-      localStorage.setItem("user", JSON.stringify(data2.data));
-
-      setUser(data2.data);
-    } catch (error) {
-      console.log(error);
-    }
+      setUser(data);
+      toast.success("request sent succesfully!");
+    });
   };
   const handleRequested = async (userId) => {
     try {
