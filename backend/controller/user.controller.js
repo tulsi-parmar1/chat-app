@@ -47,6 +47,7 @@ export const signUp = async (req, res) => {
           expires: new Date(
             Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
           ),
+          sameSite: "None", // allows cross-site cookies
         };
         res.cookie("token", token, options); //cookie is set with name token
 
@@ -79,6 +80,8 @@ export const login = async (req, res) => {
         Date.now() + process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000
       ),
       secure: true,
+
+      sameSite: "None", // allows cross-site cookies
     };
     res.cookie("token", token, options);
     res.status(200).json({
