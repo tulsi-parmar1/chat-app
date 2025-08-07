@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import man from "../../../public/man.jpg";
+// import man from "../../../public/man.jpg";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { IoAddOutline } from "react-icons/io5";
@@ -25,7 +25,7 @@ function Sidebar() {
   }, []);
 
   const handleLogout = async () => {
-    await axios.get("http://localhost:4000/user/logout", {
+    await axios.get("https://chat-app-ob0w.onrender.com/user/logout", {
       withCredentials: true,
     });
     localStorage.setItem("isAuth", false);
@@ -89,7 +89,7 @@ function Sidebar() {
         {/* Profile Section */}
         <div className="flex items-center gap-4 mt-4">
           <img
-            src={man}
+            src="/man.jpg"
             alt="Profile"
             className="h-16 w-16 rounded-full object-cover"
           />

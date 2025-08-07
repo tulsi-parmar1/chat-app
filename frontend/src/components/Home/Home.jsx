@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import man from "../../../public/man.jpg";
+// import man from "../../../public/man.jpg";
 // import UseSocketGetMessage from "../../context/UseGetSocketMessage";
 function Home() {
   const isAuth = localStorage.getItem("isAuth") === "true";
@@ -16,7 +16,7 @@ function Home() {
     const recentChats = async (req, res) => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/message/recent-chats",
+          "https://chat-app-ob0w.onrender.com/message/recent-chats",
           {
             withCredentials: true,
           }
@@ -77,7 +77,7 @@ function Home() {
             >
               <div className="flex items-center gap-4 mt-4">
                 <img
-                  src={man}
+                  src="/man.jpg"
                   alt=""
                   className="h-16 w-16 rounded-full object-cover"
                 />

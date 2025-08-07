@@ -22,7 +22,7 @@ function Chat() {
     const getMessages = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/message/get/${id}`,
+          `https://chat-app-ob0w.onrender.com/message/get/${id}`,
           { withCredentials: true }
         );
 
@@ -39,7 +39,7 @@ function Chat() {
     const getUserById = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/user/getUserById/${id}`,
+          `https://chat-app-ob0w.onrender.com/user/getUserById/${id}`,
           { withCredentials: true }
         );
 

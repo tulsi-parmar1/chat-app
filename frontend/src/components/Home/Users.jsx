@@ -51,7 +51,7 @@ function Users({ users, setUsers, route }) {
   const handleRequested = async (userId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/user/backRequest/${userId}`,
+        `https://chat-app-ob0w.onrender.com/user/backRequest/${userId}`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -60,7 +60,7 @@ function Users({ users, setUsers, route }) {
       console.log(data);
 
       const data2 = await axios.get(
-        `http://localhost:4000/user/getUser`,
+        `https://chat-app-ob0w.onrender.com/user/getUser`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -77,7 +77,7 @@ function Users({ users, setUsers, route }) {
   const handleunflw = async (userId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/user/unfollowUser/${userId}`,
+        `https://chat-app-ob0w.onrender.com/user/unfollowUser/${userId}`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -86,7 +86,7 @@ function Users({ users, setUsers, route }) {
       setUsers(users.filter((user) => user._id !== userId));
       console.log(data);
       const data2 = await axios.get(
-        `http://localhost:4000/user/getUser`,
+        `https://chat-app-ob0w.onrender.com/user/getUser`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -103,7 +103,7 @@ function Users({ users, setUsers, route }) {
   const handleRequestAccept = async (userId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/user/acceptRequest/${userId}`,
+        `https://chat-app-ob0w.onrender.com/user/acceptRequest/${userId}`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -112,7 +112,7 @@ function Users({ users, setUsers, route }) {
       console.log(data);
       // setUsers(users.filter((user) => user._id !== userId));
       const data2 = await axios.get(
-        `http://localhost:4000/user/getUser`,
+        `https://chat-app-ob0w.onrender.com/user/getUser`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -129,7 +129,7 @@ function Users({ users, setUsers, route }) {
   const handleRequestReject = async (userId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/user/rejectRequests/${userId}`,
+        `https://chat-app-ob0w.onrender.com/user/rejectRequests/${userId}`,
         { withCredentials: true },
         {
           withCredentials: true,
@@ -138,7 +138,7 @@ function Users({ users, setUsers, route }) {
       console.log(data);
       setUsers(users.filter((user) => user._id !== userId));
       const data2 = await axios.get(
-        `http://localhost:4000/user/getUser`,
+        `https://chat-app-ob0w.onrender.com/user/getUser`,
         { withCredentials: true },
         {
           withCredentials: true,

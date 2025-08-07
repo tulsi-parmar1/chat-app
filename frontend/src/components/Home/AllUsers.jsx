@@ -10,7 +10,7 @@ function AllUsers() {
     async function getData() {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/user/getUsers",
+          "https://chat-app-ob0w.onrender.com/user/getUsers",
           {
             withCredentials: true,
           }

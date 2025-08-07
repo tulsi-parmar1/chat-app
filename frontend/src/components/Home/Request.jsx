@@ -10,7 +10,7 @@ function Request() {
     async function getData() {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/user/getFollowRequests",
+          "https://chat-app-ob0w.onrender.com/user/getFollowRequests",
           {
             withCredentials: true,
           }

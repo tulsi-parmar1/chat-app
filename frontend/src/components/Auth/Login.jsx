@@ -17,7 +17,7 @@ function Login() {
   const onSubmit = async (FormData) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/user/login",
+        "https://chat-app-ob0w.onrender.com/user/login",
         FormData,
         {
           withCredentials: true,
@@ -26,7 +26,7 @@ function Login() {
       console.log(data);
       localStorage.setItem("isAuth", true);
       const data2 = await axios.get(
-        "http://localhost:4000/user/getUser",
+        "https://chat-app-ob0w.onrender.com/user/getUser",
 
         {
           withCredentials: true,

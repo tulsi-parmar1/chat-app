@@ -19,7 +19,7 @@ function App() {
     const getdata = async (req, res) => {
       try {
         const data2 = await axios.get(
-          `http://localhost:4000/user/getUser`,
+          `https://chat-app-ob0w.onrender.com/user/getUser`,
           { withCredentials: true },
           {
             withCredentials: true,

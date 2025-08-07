@@ -22,13 +22,16 @@ function SignUp() {
         return toast.error("password must be same");
       }
       const { data } = await axios.post(
-        "http://localhost:4000/user/signUp",
+        "https://chat-app-ob0w.onrender.com/user/signUp",
         data2,
         { withCredentials: true }
       );
-      const response = await axios.get("http://localhost:4000/user/getUser", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://chat-app-ob0w.onrender.com/user/getUser",
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(conversationActions.setUser(data2.data));
       localStorage.setItem("user", JSON.stringify(response.data));
       localStorage.setItem("isAuth", true);

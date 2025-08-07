@@ -8,7 +8,7 @@ function Following() {
     async function getData() {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/user/getFollowing",
+          "https://chat-app-ob0w.onrender.com/user/getFollowing",
           {
             withCredentials: true,
           }

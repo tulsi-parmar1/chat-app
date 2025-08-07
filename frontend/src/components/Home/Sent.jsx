@@ -9,7 +9,7 @@ function Sent() {
     async function getData() {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/user/getSentRequests",
+          "https://chat-app-ob0w.onrender.com/user/getSentRequests",
           {
             withCredentials: true,
           }
