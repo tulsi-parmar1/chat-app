@@ -20,7 +20,13 @@ app.use(express.urlencoded({ extended: true }));
 //     methods: ["GET", "POST", "PUT", "DELETE"],
 //   })
 // );
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://your-frontend-domain.com"], // update this
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 const PORTNUMBER = process.env.PORT || 4001;
 
 try {
