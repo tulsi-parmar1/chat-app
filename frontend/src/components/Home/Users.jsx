@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import tulsi from "../../../public/tulsi.jpg";
+// import tulsi from "../../../public/tulsi.jpg";
 import { socketContext } from "../../context/SocketContext";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -165,7 +165,7 @@ function Users({ users, setUsers, route }) {
           >
             <div className="flex items-center relative">
               <img
-                src={tulsi}
+                src="./tulsi.jpg"
                 alt=""
                 className="w-12 h-12 object-cover rounded-full"
               />

@@ -1,5 +1,5 @@
 import React from "react";
-import tulsi from "../../../public/tulsi.jpg";
+// import tulsi from "../../../public/tulsi.jpg";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 function ChatProfile({ receiver }) {
@@ -11,7 +11,7 @@ function ChatProfile({ receiver }) {
           <IoMdArrowRoundBack onClick={() => window.history.back()} />
         </p>
         <img
-          src={tulsi}
+          src="./tulsi.jpg"
           alt="User Avatar"
           className="h-14 w-14 object-cover rounded-full border-2 border-blue-500"
         />
