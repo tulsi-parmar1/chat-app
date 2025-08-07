@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
   const socket = useMemo(() => {
-    return io("http://localhost:4000", {
+    return io("https://chat-app-ob0w.onrender.com", {
       query: { userId: user?._id },
       withCredentials: true,
     });
