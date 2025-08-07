@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 // );
 app.use(
   cors({
-    origin: ["https://your-frontend-domain.com"], // update this
+    origin: ["https://chat-app-411a.vercel.app"], // update this
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
