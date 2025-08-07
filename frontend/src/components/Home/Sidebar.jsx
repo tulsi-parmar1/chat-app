@@ -15,7 +15,11 @@ function Sidebar() {
   const location = useLocation();
   const isAuth = localStorage.getItem("isAuth") === "true";
   const user = JSON.parse(localStorage.getItem("user"));
-
+  const handleNavClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  };
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -123,6 +127,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname === "/" ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             Home Page
           </NavLink>
@@ -131,6 +136,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname.includes("/followers") ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             Followers
           </NavLink>
@@ -139,6 +145,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname.includes("/following") ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             Following
           </NavLink>
@@ -147,6 +154,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname.includes("/request") ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             Follow Requests
           </NavLink>
@@ -155,6 +163,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname.includes("/sent") ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             Your Requested
           </NavLink>
@@ -163,6 +172,7 @@ function Sidebar() {
             className={`text-white hover:bg-gray-800 p-2 rounded ${
               location.pathname.includes("/allUsers") ? "bg-gray-800" : ""
             }`}
+            onClick={handleNavClick}
           >
             All Users
           </NavLink>
